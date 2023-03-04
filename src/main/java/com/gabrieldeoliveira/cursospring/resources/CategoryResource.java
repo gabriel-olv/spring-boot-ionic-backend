@@ -1,22 +1,34 @@
 package com.gabrieldeoliveira.cursospring.resources;
 
-import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gabrieldeoliveira.cursospring.domain.Category;
+import com.gabrieldeoliveira.cursospring.services.CategoryService;
 
 @RestController
 @RequestMapping("/categories")
 public class CategoryResource {
 
+    @Autowired
+    private CategoryService categoryService;
+
     @GetMapping
-    public List<Category> list() {
-        Category c1 = new Category(1, "Informática");
-        Category c2 = new Category(2, "Escritório");
-        return Arrays.asList(c1, c2);
+    public ResponseEntity<List<Category>> list() {
+        List<Category> list = categoryService.list();
+        return ResponseEntity.ok(list);
+    }
+
+    @PostMapping
+    public ResponseEntity<Category> insert(@RequestBody Category obj) {
+        Category newObj = categoryService.insert(obj);
+        return ResponseEntity.ok(newObj);
     }
 }
