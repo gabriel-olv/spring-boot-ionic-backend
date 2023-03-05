@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.gabrieldeoliveira.cursospring.domain.Category;
 import com.gabrieldeoliveira.cursospring.repositories.CategoryRepository;
+import com.gabrieldeoliveira.cursospring.services.exceptions.ObjectNotFountException;
 
 @Service
 public class CategoryService {
@@ -23,5 +24,13 @@ public class CategoryService {
 
     public List<Category> list() {
         return categoryRepository.findAll();
+    }
+
+    public Category findById(Integer id) {
+        Category obj = categoryRepository.findById(id)
+                        .orElseThrow(() -> new ObjectNotFountException(
+                            "Object not found ("+ Category.class.getSimpleName() +") Id: " + id
+                        ));
+        return obj;
     }
 }
