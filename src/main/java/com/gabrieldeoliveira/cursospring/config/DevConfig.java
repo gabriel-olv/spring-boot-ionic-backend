@@ -7,12 +7,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.gabrieldeoliveira.cursospring.domain.Address;
 import com.gabrieldeoliveira.cursospring.domain.Category;
 import com.gabrieldeoliveira.cursospring.domain.City;
+import com.gabrieldeoliveira.cursospring.domain.Client;
+import com.gabrieldeoliveira.cursospring.domain.ClientType;
 import com.gabrieldeoliveira.cursospring.domain.Product;
 import com.gabrieldeoliveira.cursospring.domain.State;
+import com.gabrieldeoliveira.cursospring.repositories.AddressRepository;
 import com.gabrieldeoliveira.cursospring.repositories.CategoryRepository;
 import com.gabrieldeoliveira.cursospring.repositories.CityRepository;
+import com.gabrieldeoliveira.cursospring.repositories.ClientRepository;
 import com.gabrieldeoliveira.cursospring.repositories.ProductRepository;
 import com.gabrieldeoliveira.cursospring.repositories.StateRepository;
 
@@ -31,6 +36,12 @@ public class DevConfig {
     
     @Autowired
     private CityRepository cityRepository;
+    
+    @Autowired
+    private AddressRepository addressRepository;
+
+    @Autowired
+    private ClientRepository clientRepository;
 
 
     @Bean
@@ -64,5 +75,22 @@ public class DevConfig {
 
         stateRepository.saveAll(Arrays.asList(st1, st2));
         cityRepository.saveAll(Arrays.asList(ct1, ct2, ct3));
+
+        Client cli1 = new Client(
+            null, 
+            "Maria Silva", 
+            "maria@email.com", 
+            "50849231000", 
+            ClientType.FISIC_PERSON);
+
+        cli1.getPhones().addAll(Arrays.asList("38917283413", "11912348793"));
+
+        Address addr1 = new Address(null, "Rua Flores", "300", "Apto 203", "Jardim", "38220834", ct1, cli1);
+        Address addr2 = new Address(null, "Avenia Matos", "105", "Sala 800", "Centro", "38777012", ct2, cli1);
+
+        cli1.getAddresses().addAll(Arrays.asList(addr1, addr2));
+
+        clientRepository.saveAll(Arrays.asList(cli1));
+        addressRepository.saveAll(Arrays.asList(addr1, addr2));
     }
 }
