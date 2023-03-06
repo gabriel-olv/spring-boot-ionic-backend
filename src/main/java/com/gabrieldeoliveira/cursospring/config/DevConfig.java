@@ -15,6 +15,7 @@ import com.gabrieldeoliveira.cursospring.domain.Category;
 import com.gabrieldeoliveira.cursospring.domain.City;
 import com.gabrieldeoliveira.cursospring.domain.Client;
 import com.gabrieldeoliveira.cursospring.domain.Order;
+import com.gabrieldeoliveira.cursospring.domain.OrderItem;
 import com.gabrieldeoliveira.cursospring.domain.Payment;
 import com.gabrieldeoliveira.cursospring.domain.Product;
 import com.gabrieldeoliveira.cursospring.domain.State;
@@ -24,6 +25,7 @@ import com.gabrieldeoliveira.cursospring.repositories.AddressRepository;
 import com.gabrieldeoliveira.cursospring.repositories.CategoryRepository;
 import com.gabrieldeoliveira.cursospring.repositories.CityRepository;
 import com.gabrieldeoliveira.cursospring.repositories.ClientRepository;
+import com.gabrieldeoliveira.cursospring.repositories.OrderItemRepository;
 import com.gabrieldeoliveira.cursospring.repositories.OrderRepository;
 import com.gabrieldeoliveira.cursospring.repositories.PaymentRepository;
 import com.gabrieldeoliveira.cursospring.repositories.ProductRepository;
@@ -56,6 +58,9 @@ public class DevConfig {
 
     @Autowired
     private PaymentRepository paymentRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
 
     @Bean
@@ -120,5 +125,18 @@ public class DevConfig {
 
         orderRepository.saveAll(Arrays.asList(o1, o2));
         paymentRepository.saveAll(Arrays.asList(pmt1, pmt2));
+
+        OrderItem oi1 = new OrderItem(o1, p1, 0.0, 1, p1.getPrice());
+        OrderItem oi2 = new OrderItem(o1, p3, 0.0, 2, p3.getPrice());
+        OrderItem oi3 = new OrderItem(o2, p2, 100.0, 1, p2.getPrice());
+
+        o1.getItems().addAll(Arrays.asList(oi1, oi2));
+        o2.getItems().addAll(Arrays.asList(oi3));
+
+        p1.getItems().addAll(Arrays.asList(oi1));
+        p2.getItems().addAll(Arrays.asList(oi3));
+        p3.getItems().addAll(Arrays.asList(oi2));
+
+        orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3));
     }
 }
