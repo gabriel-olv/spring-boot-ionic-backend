@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -30,6 +32,7 @@ public class Client implements Serializable {
 
     private Integer type;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "client")
     List<Address> addresses = new ArrayList<>();
 
