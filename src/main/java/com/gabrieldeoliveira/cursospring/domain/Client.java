@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.gabrieldeoliveira.cursospring.domain.enums.ClientType;
 
@@ -30,7 +31,6 @@ public class Client implements Serializable {
     private String name;
     private String email;
     private String cpfOrCnpj;
-
     private Integer typeCode;
 
     @JsonManagedReference
@@ -42,6 +42,7 @@ public class Client implements Serializable {
     @Column(name = "phone")
     private Set<String> phones = new HashSet<>();
 
+    @JsonBackReference
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
 

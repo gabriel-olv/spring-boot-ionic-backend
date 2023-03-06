@@ -3,6 +3,7 @@ package com.gabrieldeoliveira.cursospring.domain;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +27,7 @@ public class Address implements Serializable {
     private String district;
     private String cep;
 
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;

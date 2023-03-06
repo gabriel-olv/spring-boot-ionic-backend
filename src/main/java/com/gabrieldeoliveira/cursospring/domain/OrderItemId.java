@@ -2,6 +2,8 @@ package com.gabrieldeoliveira.cursospring.domain;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -10,10 +12,12 @@ import jakarta.persistence.ManyToOne;
 public class OrderItemId implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
