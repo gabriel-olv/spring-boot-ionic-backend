@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.gabrieldeoliveira.cursospring.domain.enums.ClientType;
 
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -30,16 +31,19 @@ public class Client implements Serializable {
     private String email;
     private String cpfOrCnpj;
 
-    private Integer type;
+    private Integer typeCode;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "client")
-    List<Address> addresses = new ArrayList<>();
+    private List<Address> addresses = new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(name = "PHONES")
     @Column(name = "phone")
-    Set<String> phones = new HashSet<>();
+    private Set<String> phones = new HashSet<>();
+
+    @OneToMany(mappedBy = "client")
+    private List<Order> orders = new ArrayList<>();
 
     public Client() {
     }
@@ -49,7 +53,7 @@ public class Client implements Serializable {
         this.name = name;
         this.email = email;
         this.cpfOrCnpj = cpfOrCnpj;
-        this.type = type.getCode();
+        this.typeCode = type.getCode();
     }
 
     public Integer getId() {
@@ -85,11 +89,11 @@ public class Client implements Serializable {
     }
 
     public ClientType getType() {
-        return ClientType.fromCode(type);
+        return ClientType.fromCode(typeCode);
     }
 
     public void setType(ClientType type) {
-        this.type = type.getCode();
+        this.typeCode = type.getCode();
     }
 
     public Set<String> getPhones() {
@@ -98,6 +102,10 @@ public class Client implements Serializable {
 
     public List<Address> getAddresses() {
         return addresses;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
     }
 
     @Override

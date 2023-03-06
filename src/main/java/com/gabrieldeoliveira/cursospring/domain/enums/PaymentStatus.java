@@ -1,21 +1,21 @@
-package com.gabrieldeoliveira.cursospring.domain;
+package com.gabrieldeoliveira.cursospring.domain.enums;
 
 import java.util.Arrays;
 
-public enum ClientType {
+public enum PaymentStatus {
+    PENDING(1, "Pendente"),
+    SETTLED(2, "Quitado"),
+    CANCELED(3, "Cancelado");
 
-    FISIC_PERSON(1, "Pessoa física"),
-    JURIDIC_PERSON(2, "Pessoa jurídica");
-
-    private int code;
+    private Integer code;
     private String description;
 
-    private ClientType(int code, String description) {
+    private PaymentStatus(Integer code, String description) {
         this.code = code;
         this.description = description;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
     }
 
@@ -23,10 +23,7 @@ public enum ClientType {
         return description;
     }
 
-    public static ClientType fromCode(Integer code) {
-        if (code == null) {
-            return null;
-        }
+    public static PaymentStatus fromCode(Integer code) {
         return Arrays.asList(values()).stream()
                 .filter(x -> x.getCode() == code)
                 .findFirst()

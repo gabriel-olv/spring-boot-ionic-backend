@@ -1,5 +1,6 @@
 package com.gabrieldeoliveira.cursospring.config;
 
+import java.time.Instant;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,16 +9,23 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.gabrieldeoliveira.cursospring.domain.Address;
+import com.gabrieldeoliveira.cursospring.domain.BankPaymentSlip;
+import com.gabrieldeoliveira.cursospring.domain.CardPayment;
 import com.gabrieldeoliveira.cursospring.domain.Category;
 import com.gabrieldeoliveira.cursospring.domain.City;
 import com.gabrieldeoliveira.cursospring.domain.Client;
-import com.gabrieldeoliveira.cursospring.domain.ClientType;
+import com.gabrieldeoliveira.cursospring.domain.Order;
+import com.gabrieldeoliveira.cursospring.domain.Payment;
 import com.gabrieldeoliveira.cursospring.domain.Product;
 import com.gabrieldeoliveira.cursospring.domain.State;
+import com.gabrieldeoliveira.cursospring.domain.enums.ClientType;
+import com.gabrieldeoliveira.cursospring.domain.enums.PaymentStatus;
 import com.gabrieldeoliveira.cursospring.repositories.AddressRepository;
 import com.gabrieldeoliveira.cursospring.repositories.CategoryRepository;
 import com.gabrieldeoliveira.cursospring.repositories.CityRepository;
 import com.gabrieldeoliveira.cursospring.repositories.ClientRepository;
+import com.gabrieldeoliveira.cursospring.repositories.OrderRepository;
+import com.gabrieldeoliveira.cursospring.repositories.PaymentRepository;
 import com.gabrieldeoliveira.cursospring.repositories.ProductRepository;
 import com.gabrieldeoliveira.cursospring.repositories.StateRepository;
 
@@ -42,6 +50,12 @@ public class DevConfig {
 
     @Autowired
     private ClientRepository clientRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private PaymentRepository paymentRepository;
 
 
     @Bean
@@ -92,5 +106,19 @@ public class DevConfig {
 
         clientRepository.saveAll(Arrays.asList(cli1));
         addressRepository.saveAll(Arrays.asList(addr1, addr2));
+
+        Order o1 = new Order(null, Instant.parse("2017-09-30T10:32:00.00Z"), cli1, addr1);
+        Order o2 = new Order(null, Instant.parse("2017-10-10T19:35:00.00Z"), cli1, addr2);
+
+        Payment pmt1 = new CardPayment(null, PaymentStatus.SETTLED, o1, 6);
+        o1.setPayment(pmt1);
+
+        Payment pmt2 = new BankPaymentSlip(null, PaymentStatus.PENDING, o2, Instant.parse("2017-10-20T00:00:00.00Z"), null);
+        o2.setPayment(pmt2);
+
+        cli1.getOrders().addAll(Arrays.asList(o1, o2));
+
+        orderRepository.saveAll(Arrays.asList(o1, o2));
+        paymentRepository.saveAll(Arrays.asList(pmt1, pmt2));
     }
 }
