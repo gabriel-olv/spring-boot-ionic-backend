@@ -2,7 +2,7 @@ package com.gabrieldeoliveira.cursospring.domain;
 
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gabrieldeoliveira.cursospring.domain.enums.PaymentStatus;
 
 import jakarta.persistence.Entity;
@@ -24,7 +24,7 @@ public abstract class Payment implements Serializable {
     private Integer id;
     private Integer statusCode;
 
-    @JsonBackReference
+    @JsonIgnore
     @MapsId
     @OneToOne
     @JoinColumn(name = "order_id")
