@@ -19,6 +19,7 @@ public class CategoryService {
         if (obj == null) {
             throw new IllegalArgumentException("Error when saving category: object was null");
         }
+        obj.setId(null);
         return categoryRepository.save(obj);
     }
 

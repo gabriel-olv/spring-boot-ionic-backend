@@ -1,5 +1,6 @@
 package com.gabrieldeoliveira.cursospring.resources;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.gabrieldeoliveira.cursospring.domain.Category;
 import com.gabrieldeoliveira.cursospring.services.CategoryService;
@@ -28,9 +30,11 @@ public class CategoryResource {
     }
 
     @PostMapping
-    public ResponseEntity<Category> insert(@RequestBody Category obj) {
+    public ResponseEntity<Void> insert(@RequestBody Category obj) {
         Category newObj = categoryService.insert(obj);
-        return ResponseEntity.ok(newObj);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                    .buildAndExpand(newObj.getId()).toUri();
+        return ResponseEntity.created(uri).build();
     }
 
     @GetMapping("/{id}")
