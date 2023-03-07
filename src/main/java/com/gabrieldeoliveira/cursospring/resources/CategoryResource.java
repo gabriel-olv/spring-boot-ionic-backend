@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,7 +40,7 @@ public class CategoryResource {
     public ResponseEntity<Void> insert(@RequestBody Category obj) {
         Category newObj = categoryService.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                    .buildAndExpand(newObj.getId()).toUri();
+                .buildAndExpand(newObj.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
@@ -59,5 +61,12 @@ public class CategoryResource {
         obj.setId(id);
         obj = categoryService.update(obj);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/page")
+    public ResponseEntity<Page<CategoryDTO>> listPageable(Pageable pageable) {
+        Page<Category> page = categoryService.listPageable(pageable);
+        Page<CategoryDTO> pageDto = DtoConverter.fromObjPage(page);
+        return ResponseEntity.ok(pageDto);
     }
 }

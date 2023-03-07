@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.gabrieldeoliveira.cursospring.domain.Category;
@@ -27,6 +29,10 @@ public class CategoryService {
 
     public List<Category> list() {
         return categoryRepository.findAll();
+    }
+
+    public Page<Category> listPageable(Pageable pageable) {
+        return categoryRepository.findAll(pageable);
     }
 
     public Category findById(Integer id) {

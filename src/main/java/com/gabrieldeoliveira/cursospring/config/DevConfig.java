@@ -67,6 +67,11 @@ public class DevConfig {
     public void initDb() {
         Category c1 = new Category(null, "Informática");
         Category c2 = new Category(null, "Escritório");
+        Category c3 = new Category(null, "Cama, mesa e banho");
+        Category c4 = new Category(null, "Eletrônicos");
+        Category c5 = new Category(null, "Jardinagem");
+        Category c6 = new Category(null, "Decoração");
+        Category c7 = new Category(null, "Perfumaria");
         
         Product p1 = new Product(null, "Computador", 3000.0);
         Product p2 = new Product(null, "Impressora", 800.0);
@@ -79,7 +84,7 @@ public class DevConfig {
         p2.getCategories().addAll(Arrays.asList(c1, c2));
         p3.getCategories().addAll(Arrays.asList(c1));
         
-        categoryRepository.saveAll(Arrays.asList(c1, c2));
+        categoryRepository.saveAll(Arrays.asList(c1, c2, c3, c4, c5, c6, c7));
         productRepository.saveAll(Arrays.asList(p1, p2, p3));
 
         State st1 = new State(null, "Minas Gerais");
