@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.gabrieldeoliveira.cursospring.domain.Category;
+import com.gabrieldeoliveira.cursospring.dto.CategoryDTO;
 import com.gabrieldeoliveira.cursospring.services.CategoryService;
+import com.gabrieldeoliveira.cursospring.services.DtoConverter;
 
 @RestController
 @RequestMapping("/categories")
@@ -26,9 +28,10 @@ public class CategoryResource {
     private CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<List<Category>> list() {
+    public ResponseEntity<List<CategoryDTO>> list() {
         List<Category> list = categoryService.list();
-        return ResponseEntity.ok(list);
+        List<CategoryDTO> listDto = DtoConverter.fromObjList(list);
+        return ResponseEntity.ok(listDto);
     }
 
     @PostMapping
