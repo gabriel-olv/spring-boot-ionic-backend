@@ -3,11 +3,13 @@ package com.gabrieldeoliveira.cursospring.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.gabrieldeoliveira.cursospring.domain.Category;
 import com.gabrieldeoliveira.cursospring.repositories.CategoryRepository;
-import com.gabrieldeoliveira.cursospring.services.exceptions.ObjectNotFountException;
+import com.gabrieldeoliveira.cursospring.services.exceptions.DataIntegrityException;
+import com.gabrieldeoliveira.cursospring.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class CategoryService {
@@ -29,7 +31,7 @@ public class CategoryService {
 
     public Category findById(Integer id) {
         Category obj = categoryRepository.findById(id)
-                        .orElseThrow(() -> new ObjectNotFountException(
+                        .orElseThrow(() -> new ObjectNotFoundException(
                             "Object not found ("+ Category.class.getSimpleName() +") Id: " + id
                         ));
         return obj;
@@ -41,5 +43,14 @@ public class CategoryService {
         }
         findById(obj.getId());
         return categoryRepository.save(obj);
+    }
+
+    public void deleteById(Integer id) {
+        findById(id);
+        try {
+            categoryRepository.deleteById(id);
+        } catch(DataIntegrityViolationException e) {
+            throw new DataIntegrityException("Can't delete category that has products");
+        }
     }
 }

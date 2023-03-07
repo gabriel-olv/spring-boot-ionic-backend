@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.gabrieldeoliveira.cursospring.domain.Order;
 import com.gabrieldeoliveira.cursospring.repositories.OrderRepository;
-import com.gabrieldeoliveira.cursospring.services.exceptions.ObjectNotFountException;
+import com.gabrieldeoliveira.cursospring.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class OrderService {
@@ -15,7 +15,7 @@ public class OrderService {
 
     public Order findById(Integer id) {
         Order obj = orderRepository.findById(id)
-                        .orElseThrow(() -> new ObjectNotFountException(
+                        .orElseThrow(() -> new ObjectNotFoundException(
                             "Object not found ("+ Order.class.getSimpleName() +") Id: " + id
                         ));
         return obj;

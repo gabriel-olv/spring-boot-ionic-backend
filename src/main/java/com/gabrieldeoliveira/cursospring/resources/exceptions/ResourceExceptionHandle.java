@@ -5,17 +5,31 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.gabrieldeoliveira.cursospring.services.exceptions.ObjectNotFountException;
+import com.gabrieldeoliveira.cursospring.services.exceptions.DataIntegrityException;
+import com.gabrieldeoliveira.cursospring.services.exceptions.ObjectNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class ResourceExceptionHandle {
     
-    @ExceptionHandler(ObjectNotFountException.class)
-    public ResponseEntity<StandardError> objectNotFound(ObjectNotFountException e, HttpServletRequest req) {
+    @ExceptionHandler(ObjectNotFoundException.class)
+    public ResponseEntity<StandardError> objectNotFound(ObjectNotFoundException e, HttpServletRequest req) {
 
         HttpStatus status = HttpStatus.NOT_FOUND;
+
+        StandardError err = new StandardError(
+            status.value(),
+            System.currentTimeMillis(),
+            e.getMessage());
+        
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(DataIntegrityException.class)
+    public ResponseEntity<StandardError> dataIntegrity(DataIntegrityException e, HttpServletRequest req) {
+
+        HttpStatus status = HttpStatus.BAD_REQUEST;
 
         StandardError err = new StandardError(
             status.value(),
