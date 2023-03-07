@@ -13,6 +13,10 @@ public class DtoConverter {
         return new CategoryDTO(obj.getId(), obj.getName());
     }
 
+    public static Category toObj(CategoryDTO objDto) {
+        return new Category(objDto.getId(), objDto.getName());
+    }
+
     public static List<CategoryDTO> fromObjList(List<Category> objList) {
         return objList.stream().map(x -> fromObj(x)).toList();
     }

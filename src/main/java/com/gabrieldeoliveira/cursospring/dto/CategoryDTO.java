@@ -2,10 +2,17 @@ package com.gabrieldeoliveira.cursospring.dto;
 
 import java.io.Serializable;
 
+import org.hibernate.validator.constraints.Length;
+
+import jakarta.validation.constraints.NotEmpty;
+
 public class CategoryDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Integer id;
+
+    @NotEmpty(message = "required field")
+    @Length(min = 5, max = 80, message = "must be between 5 and 80 characters")
     private String name;
 
     public CategoryDTO() {

@@ -22,6 +22,8 @@ import com.gabrieldeoliveira.cursospring.dto.CategoryDTO;
 import com.gabrieldeoliveira.cursospring.services.CategoryService;
 import com.gabrieldeoliveira.cursospring.services.DtoConverter;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/categories")
 public class CategoryResource {
@@ -37,8 +39,9 @@ public class CategoryResource {
     }
 
     @PostMapping
-    public ResponseEntity<Void> insert(@RequestBody Category obj) {
-        Category newObj = categoryService.insert(obj);
+    public ResponseEntity<Void> insert(@Valid @RequestBody CategoryDTO objDto) {
+        Category newObj = DtoConverter.toObj(objDto);
+        newObj = categoryService.insert(newObj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(newObj.getId()).toUri();
         return ResponseEntity.created(uri).build();
@@ -57,7 +60,8 @@ public class CategoryResource {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable Integer id, @RequestBody Category obj) {
+    public ResponseEntity<Void> update(@PathVariable Integer id, @Valid @RequestBody CategoryDTO objDto) {
+        Category obj = DtoConverter.toObj(objDto);
         obj.setId(id);
         obj = categoryService.update(obj);
         return ResponseEntity.noContent().build();
