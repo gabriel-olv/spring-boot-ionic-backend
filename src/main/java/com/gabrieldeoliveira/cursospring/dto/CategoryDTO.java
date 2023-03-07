@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.gabrieldeoliveira.cursospring.domain.Category;
+
 import jakarta.validation.constraints.NotEmpty;
 
 public class CategoryDTO implements Serializable {
@@ -41,5 +43,9 @@ public class CategoryDTO implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Category toObj() {
+        return new Category(id, name);
     }
 }

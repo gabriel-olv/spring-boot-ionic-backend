@@ -34,13 +34,13 @@ public class CategoryResource {
     @GetMapping
     public ResponseEntity<List<CategoryDTO>> list() {
         List<Category> list = categoryService.list();
-        List<CategoryDTO> listDto = DtoConverter.fromObjList(list);
+        List<CategoryDTO> listDto = list.stream().map(x -> DtoConverter.fromObj(x)).toList();
         return ResponseEntity.ok(listDto);
     }
 
     @PostMapping
     public ResponseEntity<Void> insert(@Valid @RequestBody CategoryDTO objDto) {
-        Category newObj = DtoConverter.toObj(objDto);
+        Category newObj = objDto.toObj();
         newObj = categoryService.insert(newObj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(newObj.getId()).toUri();
@@ -61,7 +61,7 @@ public class CategoryResource {
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable Integer id, @Valid @RequestBody CategoryDTO objDto) {
-        Category obj = DtoConverter.toObj(objDto);
+        Category obj = objDto.toObj();
         obj.setId(id);
         obj = categoryService.update(obj);
         return ResponseEntity.noContent().build();
@@ -70,7 +70,7 @@ public class CategoryResource {
     @GetMapping("/page")
     public ResponseEntity<Page<CategoryDTO>> listPageable(Pageable pageable) {
         Page<Category> page = categoryService.listPageable(pageable);
-        Page<CategoryDTO> pageDto = DtoConverter.fromObjPage(page);
+        Page<CategoryDTO> pageDto = page.map(x -> DtoConverter.fromObj(x));
         return ResponseEntity.ok(pageDto);
     }
 }
