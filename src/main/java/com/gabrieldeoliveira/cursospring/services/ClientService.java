@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gabrieldeoliveira.cursospring.domain.Client;
-import com.gabrieldeoliveira.cursospring.repositories.AddressRepository;
 import com.gabrieldeoliveira.cursospring.repositories.ClientRepository;
 import com.gabrieldeoliveira.cursospring.services.exceptions.DataIntegrityException;
 import com.gabrieldeoliveira.cursospring.services.exceptions.ObjectNotFoundException;
@@ -21,18 +20,13 @@ public class ClientService {
     @Autowired 
     private ClientRepository clientRepository;
 
-    @Autowired 
-    private AddressRepository addressRepository;
-
     @Transactional
     public Client insert(Client obj) {
         if (obj == null) {
             throw new IllegalArgumentException("Error when saving client: object was null");
         }
         obj.setId(null);
-        obj = clientRepository.save(obj);
-        addressRepository.saveAll(obj.getAddresses());
-        return obj;
+        return clientRepository.save(obj);
     }
 
     public List<Client> list() {
@@ -71,7 +65,7 @@ public class ClientService {
         try {
             clientRepository.deleteById(id);
         } catch(DataIntegrityViolationException e) {
-            throw new DataIntegrityException("Can't delete client");
+            throw new DataIntegrityException("Can't delete client that has orders");
         }
     }
 }
