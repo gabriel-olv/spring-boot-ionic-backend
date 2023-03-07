@@ -7,6 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gabrieldeoliveira.cursospring.domain.Category;
 import com.gabrieldeoliveira.cursospring.repositories.CategoryRepository;
@@ -19,6 +20,7 @@ public class CategoryService {
     @Autowired 
     private CategoryRepository categoryRepository;
 
+    @Transactional
     public Category insert(Category obj) {
         if (obj == null) {
             throw new IllegalArgumentException("Error when saving category: object was null");
@@ -43,6 +45,7 @@ public class CategoryService {
         return obj;
     }
 
+    @Transactional
     public Category update(Category obj) {
         if (obj == null) {
             throw new IllegalArgumentException("Error when updating category: object was null");

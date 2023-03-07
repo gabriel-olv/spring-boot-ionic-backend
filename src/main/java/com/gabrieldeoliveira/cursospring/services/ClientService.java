@@ -7,8 +7,10 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gabrieldeoliveira.cursospring.domain.Client;
+import com.gabrieldeoliveira.cursospring.repositories.AddressRepository;
 import com.gabrieldeoliveira.cursospring.repositories.ClientRepository;
 import com.gabrieldeoliveira.cursospring.services.exceptions.DataIntegrityException;
 import com.gabrieldeoliveira.cursospring.services.exceptions.ObjectNotFoundException;
@@ -18,6 +20,20 @@ public class ClientService {
     
     @Autowired 
     private ClientRepository clientRepository;
+
+    @Autowired 
+    private AddressRepository addressRepository;
+
+    @Transactional
+    public Client insert(Client obj) {
+        if (obj == null) {
+            throw new IllegalArgumentException("Error when saving client: object was null");
+        }
+        obj.setId(null);
+        obj = clientRepository.save(obj);
+        addressRepository.saveAll(obj.getAddresses());
+        return obj;
+    }
 
     public List<Client> list() {
         return clientRepository.findAll();
@@ -35,6 +51,7 @@ public class ClientService {
         return obj;
     }
     
+    @Transactional
     public Client update(Client obj) {
         if (obj == null) {
             throw new IllegalArgumentException("Error when updating category: object was null");
