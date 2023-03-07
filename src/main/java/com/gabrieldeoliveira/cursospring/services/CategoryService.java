@@ -34,4 +34,12 @@ public class CategoryService {
                         ));
         return obj;
     }
+
+    public Category update(Category obj) {
+        if (obj == null) {
+            throw new IllegalArgumentException("Error when updating category: object was null");
+        }
+        findById(obj.getId());
+        return categoryRepository.save(obj);
+    }
 }
