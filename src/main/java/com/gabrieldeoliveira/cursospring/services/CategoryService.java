@@ -47,8 +47,13 @@ public class CategoryService {
         if (obj == null) {
             throw new IllegalArgumentException("Error when updating category: object was null");
         }
-        findById(obj.getId());
-        return categoryRepository.save(obj);
+        Category newObj = findById(obj.getId());
+        updateData(newObj, obj);
+        return categoryRepository.save(newObj);
+    }
+
+    private void updateData(Category newObj, Category obj) {
+        newObj.setName(obj.getName());
     }
 
     public void deleteById(Integer id) {
