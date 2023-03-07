@@ -2,29 +2,52 @@ package com.gabrieldeoliveira.cursospring.dto;
 
 import java.io.Serializable;
 
+import org.hibernate.validator.constraints.Length;
+
 import com.gabrieldeoliveira.cursospring.domain.Address;
 import com.gabrieldeoliveira.cursospring.domain.City;
 import com.gabrieldeoliveira.cursospring.domain.Client;
 import com.gabrieldeoliveira.cursospring.domain.enums.ClientType;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
 public class NewClientDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @NotEmpty(message = "required field")
+    @Length(min = 5, max = 120, message = "must have between 5 and 120 characters")
     private String name;
+    
+    @NotEmpty(message = "required field")
+    @Email(message = "invalid email")
     private String email;
     private String cpfOrCnpj;
+
+    @NotNull(message = "required field")
     private Integer typeCode;
-
+    
+    @NotEmpty(message = "required field")
     private String place;
-    private String number;
-    private String complement;
-    private String district;
-    private String cep;
 
+    @NotEmpty(message = "required field")
+    private String number;
+    
+    private String complement;
+    
+    @NotEmpty(message = "required field")
+    private String district;
+    
+    @NotEmpty(message = "required field")
+    private String cep;
+    
+    @NotEmpty(message = "required field")
     private String phone1;
     private String phone2;
     private String phone3;
 
+    @NotNull(message = "required field")
     private Integer cityId;
 
     public NewClientDTO() {
