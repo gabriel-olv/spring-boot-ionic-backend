@@ -3,14 +3,21 @@ package com.gabrieldeoliveira.cursospring.services.validation;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.gabrieldeoliveira.cursospring.domain.Client;
 import com.gabrieldeoliveira.cursospring.domain.enums.ClientType;
 import com.gabrieldeoliveira.cursospring.dto.NewClientDTO;
+import com.gabrieldeoliveira.cursospring.repositories.ClientRepository;
 import com.gabrieldeoliveira.cursospring.resources.exceptions.FieldMessage;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 public class NewClientValidator implements ConstraintValidator<NewClient, NewClientDTO> {
+
+    @Autowired
+    private ClientRepository clientRepository;
 
     @Override
     public boolean isValid(NewClientDTO objDto, ConstraintValidatorContext context) {
@@ -27,6 +34,11 @@ public class NewClientValidator implements ConstraintValidator<NewClient, NewCli
                 errors.add(new FieldMessage("cpfOrCnpj", "invalid cnpj"));
             }
         }
+
+        Client aux = clientRepository.findByEmail(objDto.getEmail());
+        if (aux != null) {
+            errors.add(new FieldMessage("email", "email already registered"));
+        } 
 
         for (FieldMessage x : errors) {
             context.disableDefaultConstraintViolation();
