@@ -8,11 +8,13 @@ import com.gabrieldeoliveira.cursospring.domain.Address;
 import com.gabrieldeoliveira.cursospring.domain.City;
 import com.gabrieldeoliveira.cursospring.domain.Client;
 import com.gabrieldeoliveira.cursospring.domain.enums.ClientType;
+import com.gabrieldeoliveira.cursospring.services.validation.NewClient;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
+@NewClient
 public class NewClientDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
