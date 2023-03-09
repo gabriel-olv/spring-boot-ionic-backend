@@ -76,16 +76,38 @@ public class DevConfig {
         Product p1 = new Product(null, "Computador", 3000.0);
         Product p2 = new Product(null, "Impressora", 800.0);
         Product p3 = new Product(null, "Mouse", 80.0);
+        Product p4 = new Product(null, "Mesa de escritório", 300.0);
+        Product p5 = new Product(null, "Toalha", 50.0);
+        Product p6 = new Product(null, "Colcha", 200.0);
+        Product p7 = new Product(null, "TV true color", 1200.0);
+        Product p8 = new Product(null, "Roçadeira", 800.0);
+        Product p9 = new Product(null, "Abajour", 100.0);
+        Product p10 = new Product(null, "Pendente", 180.0);
+        Product p11 = new Product(null, "Shampoo", 90.0);
+
         
         c1.getProducts().addAll(Arrays.asList(p1, p2, p3));
-        c2.getProducts().addAll(Arrays.asList(p2));
+        c2.getProducts().addAll(Arrays.asList(p2, p4));
+        c3.getProducts().addAll(Arrays.asList(p5, p6));
+        c4.getProducts().addAll(Arrays.asList(p1, p2, p3, p7));
+        c5.getProducts().addAll(Arrays.asList(p8));
+        c6.getProducts().addAll(Arrays.asList(p9, p10));
+        c7.getProducts().addAll(Arrays.asList(p11));
 
-        p1.getCategories().addAll(Arrays.asList(c1));
-        p2.getCategories().addAll(Arrays.asList(c1, c2));
-        p3.getCategories().addAll(Arrays.asList(c1));
+        p1.getCategories().addAll(Arrays.asList(c1, c4));
+        p2.getCategories().addAll(Arrays.asList(c1, c2, c4));
+        p3.getCategories().addAll(Arrays.asList(c1, c4));
+        p4.getCategories().addAll(Arrays.asList(c2));
+        p5.getCategories().addAll(Arrays.asList(c3));
+        p6.getCategories().addAll(Arrays.asList(c3));
+        p7.getCategories().addAll(Arrays.asList(c4));
+        p8.getCategories().addAll(Arrays.asList(c5));
+        p9.getCategories().addAll(Arrays.asList(c6));
+        p10.getCategories().addAll(Arrays.asList(c6));
+        p11.getCategories().addAll(Arrays.asList(c7));
         
         categoryRepository.saveAll(Arrays.asList(c1, c2, c3, c4, c5, c6, c7));
-        productRepository.saveAll(Arrays.asList(p1, p2, p3));
+        productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11));
 
         State st1 = new State(null, "Minas Gerais");
         State st2 = new State(null, "São Paulo");
