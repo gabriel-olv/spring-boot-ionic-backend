@@ -3,6 +3,7 @@ package com.gabrieldeoliveira.cursospring.domain;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.gabrieldeoliveira.cursospring.domain.enums.PaymentStatus;
 
 import jakarta.persistence.Entity;
@@ -17,6 +18,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "PAYMENTS")
 @Inheritance(strategy = InheritanceType.JOINED)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME , include = JsonTypeInfo.As.PROPERTY, property = "@type")
 public abstract class Payment implements Serializable {
     private static final long serialVersionUID = 1L;
 

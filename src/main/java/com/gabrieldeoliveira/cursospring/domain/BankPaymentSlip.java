@@ -2,6 +2,7 @@ package com.gabrieldeoliveira.cursospring.domain;
 
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.gabrieldeoliveira.cursospring.domain.enums.PaymentStatus;
 
 import jakarta.persistence.Entity;
@@ -9,6 +10,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "BANK_PAYMENTS_SLIP")
+@JsonTypeName("bankPaymentSlip")
 public class BankPaymentSlip extends Payment {
     
     private Instant dueDate;
