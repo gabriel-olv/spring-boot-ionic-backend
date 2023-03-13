@@ -65,7 +65,7 @@ public class OrderService {
             x.setPrice(product.getPrice());
         }
         orderItemRepository.saveAll(obj.getItems());
-        emailService.sendOrderConfirmation(obj);
+        emailService.sendOrderConfirmationHtml(obj);
         return obj;
     }
 

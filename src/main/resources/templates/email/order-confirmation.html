@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmação de Pedido</title>
+
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Pedido nº.: <span th:text="${order.id}"></span></h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Quantidade</th>
+                <th>Produto</th>
+                <th>Preço unitário</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr th:each="item : ${order.items}">
+                <td th:text="${item.quantity}"></td>
+                <td th:text="${item.product.name}"></td>
+                <td th:text="${item.price}"></td>
+                <td th:text="${item.subTotal}"></td>
+            </tr>
+            <tr>
+                <td colspan="3">Valor total</td>
+                <td th:text="${order.total}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>
