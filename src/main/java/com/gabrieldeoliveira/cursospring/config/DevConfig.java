@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Profile;
 
 import com.gabrieldeoliveira.cursospring.services.DBService;
 import com.gabrieldeoliveira.cursospring.services.EmailService;
-import com.gabrieldeoliveira.cursospring.services.SmtpEmailService;
+import com.gabrieldeoliveira.cursospring.services.MockEmailService;
 
 @Configuration
 @Profile("dev")
@@ -28,6 +28,6 @@ public class DevConfig {
 
     @Bean
     EmailService emailService() {
-        return new SmtpEmailService();
+        return new MockEmailService();
     }
 }
