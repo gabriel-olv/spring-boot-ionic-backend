@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.gabrieldeoliveira.cursospring.services.DBService;
+import com.gabrieldeoliveira.cursospring.services.EmailService;
+import com.gabrieldeoliveira.cursospring.services.MockEmailService;
 
 @Configuration
 @Profile("dev")
@@ -22,5 +24,10 @@ public class DevConfig {
     public void initDb() {
         if (strategy.equals("create") || strategy.equals("create-drop"))
             dbService.initDb();
+    }
+
+    @Bean
+    EmailService emailService() {
+        return new MockEmailService();
     }
 }

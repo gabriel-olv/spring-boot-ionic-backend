@@ -34,6 +34,9 @@ public class OrderService {
     @Autowired
     private BankSlipService bankSlipService;
 
+    @Autowired
+    private EmailService emailService;
+
     @Transactional
     public Order insert(Order obj) {
         if (obj == null) {
@@ -62,7 +65,7 @@ public class OrderService {
             x.setPrice(product.getPrice());
         }
         orderItemRepository.saveAll(obj.getItems());
-        System.out.println(obj);
+        emailService.sendOrderConfirmation(obj);
         return obj;
     }
 
