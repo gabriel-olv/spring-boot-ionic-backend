@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gabrieldeoliveira.cursospring.domain.Category;
 import com.gabrieldeoliveira.cursospring.domain.Product;
@@ -22,6 +23,7 @@ public class ProductService {
     @Autowired 
     private CategoryRepository categoryRepository;
 
+    @Transactional(readOnly = true)
     public Product findById(Integer id) {
         Product obj = productRepository.findById(id)
                         .orElseThrow(() -> new ObjectNotFoundException(
@@ -30,6 +32,7 @@ public class ProductService {
         return obj;
     }
 
+    @Transactional(readOnly = true)
     public Page<Product> search(String name, List<Integer> categoryIds, Pageable pageable) {
         List<Category> categories = categoryRepository.findAllById(categoryIds);
         return productRepository.findByNameContainingAndCategoriesIn(name, categories, pageable);

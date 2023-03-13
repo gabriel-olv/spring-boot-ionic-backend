@@ -55,6 +55,7 @@ public class OrderService {
         return obj;
     }
 
+    @Transactional(readOnly = true)
     public Order findById(Integer id) {
         Order obj = orderRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException(

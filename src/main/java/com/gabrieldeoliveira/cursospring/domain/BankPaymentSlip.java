@@ -12,8 +12,9 @@ import jakarta.persistence.Table;
 @Table(name = "BANK_PAYMENTS_SLIP")
 @JsonTypeName("bankPaymentSlip")
 public class BankPaymentSlip extends Payment {
+    private static final long serialVersionUID = 1L;
     
-    private Instant dueDate;
+	private Instant dueDate;
     private Instant paymentDate;
     
     public BankPaymentSlip() {

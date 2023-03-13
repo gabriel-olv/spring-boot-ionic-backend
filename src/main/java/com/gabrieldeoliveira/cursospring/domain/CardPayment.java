@@ -10,7 +10,8 @@ import jakarta.persistence.Table;
 @Table(name = "CARD_PAYMENTS")
 @JsonTypeName("cardPayment")
 public class CardPayment extends Payment {
-    
+    private static final long serialVersionUID = 1L;
+
     private Integer installments;
 
     public CardPayment() {

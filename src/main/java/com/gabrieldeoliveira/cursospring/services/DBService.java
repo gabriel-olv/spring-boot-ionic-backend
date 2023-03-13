@@ -31,6 +31,7 @@ import com.gabrieldeoliveira.cursospring.repositories.StateRepository;
 
 @Service
 public class DBService {
+	
     @Autowired
     private CategoryRepository categoryRepository;
 

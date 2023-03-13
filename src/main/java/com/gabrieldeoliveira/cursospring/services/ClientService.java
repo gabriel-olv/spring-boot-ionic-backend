@@ -29,14 +29,17 @@ public class ClientService {
         return clientRepository.save(obj);
     }
 
+    @Transactional(readOnly = true)
     public List<Client> list() {
         return clientRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Page<Client> listPageable(Pageable pageable) {
         return clientRepository.findAll(pageable);
     }
 
+    @Transactional(readOnly = true)
     public Client findById(Integer id) {
         Client obj = clientRepository.findById(id)
                         .orElseThrow(() -> new ObjectNotFoundException(
@@ -60,6 +63,7 @@ public class ClientService {
         newObj.setEmail(obj.getEmail());
     }
 
+    @Transactional
     public void deleteById(Integer id) {
         findById(id);
         try {

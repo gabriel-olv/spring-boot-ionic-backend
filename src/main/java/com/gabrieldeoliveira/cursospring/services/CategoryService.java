@@ -29,14 +29,17 @@ public class CategoryService {
         return categoryRepository.save(obj);
     }
 
+    @Transactional(readOnly = true)
     public List<Category> list() {
         return categoryRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Page<Category> listPageable(Pageable pageable) {
         return categoryRepository.findAll(pageable);
     }
 
+    @Transactional(readOnly = true)
     public Category findById(Integer id) {
         Category obj = categoryRepository.findById(id)
                         .orElseThrow(() -> new ObjectNotFoundException(
@@ -59,6 +62,7 @@ public class CategoryService {
         newObj.setName(obj.getName());
     }
 
+    @Transactional
     public void deleteById(Integer id) {
         findById(id);
         try {
