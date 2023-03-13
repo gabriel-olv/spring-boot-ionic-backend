@@ -1,8 +1,13 @@
 package com.gabrieldeoliveira.cursospring.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -121,5 +126,23 @@ public class Order implements Serializable {
         } else if (!id.equals(other.id))
             return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        StringBuilder sb = new StringBuilder();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        sb.append("Pedido nº.: " + id + "\n");
+        sb.append("Instante: " + dtf.format(LocalDateTime.ofInstant(instant, ZoneId.systemDefault())) + "\n");
+        sb.append("Cliente: " + client.getName() + "\n");
+        sb.append("Situação do pagamento: " + payment.getStatus().getDescription() + "\n");
+        sb.append("\nDetalhes:\n");
+        
+        for (OrderItem x : items) {
+            sb.append(x.toString());
+        }
+        sb.append("Valor total: " + nf.format(getTotal()));
+        return sb.toString();
     }
 }

@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gabrieldeoliveira.cursospring.domain.BankPaymentSlip;
+import com.gabrieldeoliveira.cursospring.domain.Client;
 import com.gabrieldeoliveira.cursospring.domain.Order;
 import com.gabrieldeoliveira.cursospring.domain.OrderItem;
+import com.gabrieldeoliveira.cursospring.domain.Product;
 import com.gabrieldeoliveira.cursospring.domain.enums.PaymentStatus;
 import com.gabrieldeoliveira.cursospring.repositories.OrderItemRepository;
 import com.gabrieldeoliveira.cursospring.repositories.OrderRepository;
@@ -22,6 +24,9 @@ public class OrderService {
 
     @Autowired
     private OrderItemRepository orderItemRepository;
+
+    @Autowired
+    private ClientService clientService;
 
     @Autowired
     private ProductService productService;
@@ -39,19 +44,25 @@ public class OrderService {
         obj.getPayment().setOrder(obj);
         obj.getPayment().setStatus(PaymentStatus.PENDING);
 
+        Client client = clientService.findById(obj.getClient().getId());
+        obj.setClient(client);
+
         if (obj.getPayment() instanceof BankPaymentSlip) {
             BankPaymentSlip payment = (BankPaymentSlip) obj.getPayment();
             bankSlipService.fillDueDate(payment, obj.getInstant());
         }
         obj = orderRepository.save(obj);
+        obj.getClient();
 
         for (OrderItem x : obj.getItems()) {
-            Double price = productService.findById(x.getProduct().getId()).getPrice();
+            Product product = productService.findById(x.getProduct().getId());
+            x.setProduct(product);
             x.setOrder(obj);
             x.setDiscount(0.0);
-            x.setPrice(price);
+            x.setPrice(product.getPrice());
         }
         orderItemRepository.saveAll(obj.getItems());
+        System.out.println(obj);
         return obj;
     }
 

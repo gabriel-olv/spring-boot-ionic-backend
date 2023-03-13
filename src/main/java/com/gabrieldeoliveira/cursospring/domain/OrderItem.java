@@ -1,6 +1,8 @@
 package com.gabrieldeoliveira.cursospring.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -107,5 +109,16 @@ public class OrderItem implements Serializable {
         } else if (!id.equals(other.id))
             return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        StringBuilder sb = new StringBuilder();
+        sb.append("Qtd: " + quantity + ", ");
+        sb.append(getProduct().getName() + ", ");
+        sb.append("Preço unitário: " + nf.format(price) + ", ");
+        sb.append("Subtotal: " + nf.format(getSubTotal()) + "\n");
+        return sb.toString();
     }
 }
