@@ -8,39 +8,88 @@
     <title>Confirmação de Pedido</title>
 
     <style>
+        body {
+            font-family: sans-serif;
+        }
+
         table {
+            width: 100%;
             border-collapse: collapse;
+            font-size: 1.2rem;
+        }
+
+        table tr th {
+            padding: .5rem 0;
+            border-bottom: 1px solid black;
+        }
+
+        table tr th,
+        td {
+            text-align: center;
+        }
+
+        table tr td {
+            padding: .5rem 0;
+        }
+
+        table tr td:nth-of-type(1) {
+            width: 5%;
+        }
+
+        table tr td:nth-of-type(2) {
+            width: 45%;
+        }
+
+        table tr td:nth-of-type(3) {
+            width: 25%;
+        }
+
+        table tr td:nth-of-type(3) {
+            width: 25%;
+        }
+
+        .last-row {
+            font-size: 1.4rem;
+            font-weight: bold;
+            border-top: 1px solid black;
+        }
+
+        .table-container {
+            margin: 0 auto;
+            max-width: 900px;
         }
     </style>
 </head>
 
 <body>
+    <div class="table-container">
+        <table>
+            <caption>
+                <h1>Pedido nº.: <span th:text="${order.id}"></span></h1>
+            </caption>
+            <thead>
+                <tr>
+                    <th>Quantidade</th>
+                    <th>Produto</th>
+                    <th>Preço unitário (R$)</th>
+                    <th>Subtotal (R$)</th>
+                </tr>
+            </thead>
 
-    <h1>Pedido nº.: <span th:text="${order.id}"></span></h1>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Quantidade</th>
-                <th>Produto</th>
-                <th>Preço unitário</th>
-                <th>Subtotal</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <tr th:each="item : ${order.items}">
-                <td th:text="${item.quantity}"></td>
-                <td th:text="${item.product.name}"></td>
-                <td th:text="${item.price}"></td>
-                <td th:text="${item.subTotal}"></td>
-            </tr>
-            <tr>
-                <td colspan="3">Valor total</td>
-                <td th:text="${order.total}"></td>
-            </tr>
-        </tbody>
-    </table>
+            <tbody>
+                <tr th:each="item : ${order.items}">
+                    <td th:text="${item.quantity}"></td>
+                    <td th:text="${item.product.name}"></td>
+                    <td th:text="${#numbers.formatDecimal(item.price, 0, 'POINT', 2, 'COMMA')}"></td>
+                    <td th:text="${#numbers.formatDecimal(item.subTotal, 0, 'POINT', 2, 'COMMA')}"></td>
+                </tr>
+                <tr class="last-row">
+                    <td colspan="3" style="text-align: right;">Valor total (R$)</td>
+                    <td th:text="${#numbers.formatDecimal(order.total, 0, 'POINT', 2, 'COMMA')}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 
 </html>
